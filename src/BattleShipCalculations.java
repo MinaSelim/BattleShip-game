@@ -23,7 +23,6 @@ public class BattleShipCalculations
 		{
 			for(int j=0; j<7; j++)
 				ship_location_clone[i][j] = ship_location[i][j];
-			System.out.println();
 		}
 	}
 	
@@ -31,7 +30,7 @@ public class BattleShipCalculations
 	{
 		ship_location_clone[x_position][y_position] = false;
 		guesses++;
-		List ships = twoDArrayToList(ship_location_clone);
+		List<Boolean> ships = twoDArrayToList(ship_location_clone);
 		return !ships.contains(true);
 	}
 	
@@ -152,7 +151,7 @@ public class BattleShipCalculations
 			z= random.nextInt(2);
 			switch(z)
 			{
-			case 0: addShipToTheLeft(); break;
+			case 0: addShipToTheTop(); break;
 			default: addShipToTheBottom();
 			}
 		}
