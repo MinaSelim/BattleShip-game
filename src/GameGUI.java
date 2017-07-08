@@ -69,7 +69,7 @@ public class GameGUI extends JFrame
 			if(enemyShips.thereIsaShip(x, y))
 				reveal = explosion;
 			else
-				reveal = grey_background;
+				reveal = lightgrey_background;
 			
 		}
 		
@@ -100,7 +100,7 @@ public class GameGUI extends JFrame
 					
 				}
 				else
-					cpuButton[AI.getX()][AI.getY()].setIcon(lightgrey_background);
+					cpuButton[AI.getX()][AI.getY()].setIcon(grey_background);
 				
 			}
 				
