@@ -18,6 +18,7 @@ public class GameGUI extends JFrame
 	private Icon explosion = new ImageIcon(getClass().getResource("ressources/Explosion-Icon.png"));
 	private Icon black_background = new ImageIcon(getClass().getResource("ressources/Black_Background-Icon.png"));
 	private Icon grey_background = new ImageIcon(getClass().getResource("ressources/Grey-Background-Icon.png"));
+	private Icon lightgrey_background = new ImageIcon(getClass().getResource("ressources/LightGrey-Background-Icon.png"));
 	private Icon white_background = new ImageIcon(getClass().getResource("ressources/White_Background-Icon.png"));
 	private BattleShipCalculations enemyShips, playerShips;
 	private ArtificialIntelligence AI;
@@ -99,7 +100,7 @@ public class GameGUI extends JFrame
 					
 				}
 				else
-					cpuButton[AI.getX()][AI.getY()].setIcon(grey_background);
+					cpuButton[AI.getX()][AI.getY()].setIcon(lightgrey_background);
 				
 			}
 				
