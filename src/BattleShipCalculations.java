@@ -33,6 +33,10 @@ public class BattleShipCalculations
 		List<Boolean> ships = twoDArrayToList(ship_location_clone);
 		return !ships.contains(true);
 	}
+	public boolean[][] getShipLocation()
+	{
+		return ship_location.clone();
+	}
 	
 	public int getGuesses()
 	{

@@ -13,42 +13,59 @@ import javax.swing.border.Border;
 
 public class GameGUI extends JFrame
 {
-	private JButton[][] button;
+	private JButton[][] playerButton, cpuButton;
 	private Border emptyBorder = BorderFactory.createEmptyBorder();
 	private Icon explosion = new ImageIcon(getClass().getResource("ressources/Explosion-Icon.png"));
 	private Icon black_background = new ImageIcon(getClass().getResource("ressources/Black_Background-Icon.png"));
 	private Icon grey_background = new ImageIcon(getClass().getResource("ressources/Grey-Background-Icon.png"));
-	private BattleShipCalculations game;
+	private Icon white_background = new ImageIcon(getClass().getResource("ressources/White_Background-Icon.png"));
+	private BattleShipCalculations enemyShips, playerShips;
+	private ArtificialIntelligence AI;
+	
 	
 	
 	public GameGUI()
 	{
 		super("BattleShip");
 		super.getContentPane().setBackground(Color.BLUE);
-		game = new BattleShipCalculations();
+		enemyShips = new BattleShipCalculations();
+		playerShips = new BattleShipCalculations();
+		AI = new ArtificialIntelligence(playerShips);
 		setLayout(new FlowLayout());
-		button = new JButton[7][7];
-		for(int i = 0; i<button.length ; i++)
-			for(int j = 0; j<button.length ; j++)
+		playerButton = new JButton[7][7];
+		cpuButton = new JButton[7][7];
+		
+		for(int i = 0; i<playerButton.length ; i++)
+		{
+			for(int j = 0; j<playerButton.length ; j++)
 			{
-				button[i][j] = new JButton(" ");
-				button[i][j].setBorder(emptyBorder);
-				button[i][j].setIcon(black_background);
-				button[i][j].addActionListener(new TheListener(i,j));
-				add(button[i][j]);
+				playerButton[i][j] = new JButton(" ");
+				playerButton[i][j].setBorder(emptyBorder);
+				playerButton[i][j].setIcon(black_background);
+				playerButton[i][j].addActionListener(new TheListener(i,j));
+				add(playerButton[i][j]);
 			}
+			for(int j = 0; j<cpuButton.length ; j++)
+			{
+				cpuButton[i][j] = new JButton(" ");
+				cpuButton[i][j].setBorder(emptyBorder);
+				cpuButton[i][j].setIcon(white_background);
+				add(cpuButton[i][j]);
+			}
+		}
 	}
 	
 	private class TheListener implements ActionListener
 	{
 		private int x,y;
 		private Icon reveal;
+		private boolean pressed = false;
 		
 		public TheListener(int a, int b)
 		{
 			x = a;
 			y = b;
-			if(game.thereIsaShip(x, y))
+			if(enemyShips.thereIsaShip(x, y))
 				reveal = explosion;
 			else
 				reveal = grey_background;
@@ -57,14 +74,35 @@ public class GameGUI extends JFrame
 		
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			button[x][y].setIcon(reveal);
-			if(game.checkVictory(x, y))
+			if(!pressed)
 			{
-				JOptionPane.showMessageDialog(null, "You Win! it took you " +game.getGuesses() + " tries");
-				setVisible(false);
-				dispose();
+				pressed = true;
+				JButton a = (JButton) arg0.getSource();
+				a.setIcon(reveal);
+				if(enemyShips.checkVictory(x, y))
+				{
+					JOptionPane.showMessageDialog(null, "You Win!");
+					setVisible(false);
+					dispose();
+					System.exit(0);
+				}
+				AI.choice();
+				if(playerShips.thereIsaShip(AI.getX(), AI.getY()))
+				{
+					cpuButton[AI.getX()][AI.getY()].setIcon(explosion);
+					if(playerShips.checkVictory(AI.getX(),AI.getY()))
+					{
+						JOptionPane.showMessageDialog(null, "You lose!");
+						setVisible(false);
+						dispose();
+					}
+					
+				}
+				else
+					cpuButton[AI.getX()][AI.getY()].setIcon(grey_background);
+				
 			}
-			
+				
 			
 		}
 		
